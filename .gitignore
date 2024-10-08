@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.DS_Store
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+*.log
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# Miscellaneous
+*.tmp
+*.bak
+*.old
+*.orig
+
+# Output files
+output/

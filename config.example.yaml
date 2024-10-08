@@ -1,0 +1,38 @@
+header: true # Whether the CSV contains a header row or not
+columns:
+  - index: 0
+    field: id
+    label: ID
+    type: int
+    type_policy: strict # Can be 'strict', 'flexible', or 'nullable'
+    default: 0
+  - index: 1
+    field: name
+    label: Name
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 2
+    field: age
+    label: Age
+    type: int
+    type_policy: nullable
+    default: 18
+  - index: 3
+    field: is_active
+    label: IsActive
+    type: bool
+    type_policy: strict
+    default: false
+  - index: 4
+    field: join_date
+    label: JoinDate
+    type: date
+    type_policy: flexible
+    default: "1970-01-01"
+  - index: 5
+    field: last_login
+    label: LastLogin
+    type: datetime
+    type_policy: nullable
+    default: "1970-01-01T00:00:00Z"

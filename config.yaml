@@ -1,0 +1,191 @@
+header: true # Assuming the CSV contains a header row
+ignore_duplicates: false # Ignore duplicate rows
+columns:
+  - index: 0
+    field: employee_id
+    label: Employee ID
+    type: int
+    type_policy: strict
+    default: 0
+  - index: 1
+    field: first_name
+    label: First Name
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 2
+    field: last_name
+    label: Last Name
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 3
+    field: date_of_birth
+    label: Date of Birth
+    type: date
+    format: "%m/%d/%Y"
+    type_policy: strict
+    default: "1970-01-01"
+  - index: 4
+    field: ssn
+    label: SSN
+    type: string
+    type_policy: strict
+    default: ""
+  - index: 5
+    field: job_title
+    label: Job Title
+    type: string
+    type_policy: flexible
+    default: "Employee"
+  - index: 6
+    field: manager
+    label: Manager
+    type: string
+    type_policy: flexible
+    default: "N/A"
+  - index: 7
+    field: home_address
+    label: Home Address
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 8
+    field: phone
+    label: Phone
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 9
+    field: favorite_movie_quote
+    label: Favorite Movie Quote
+    type: string
+    type_policy: flexible
+    default: ""
+  - index: 10
+    field: network_ip
+    label: Network IP
+    type: string
+    type_policy: flexible
+    default: "0.0.0.0"
+  - index: 11
+    field: city
+    label: City
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 12
+    field: state
+    label: State
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 13
+    field: postal_code
+    label: Postal Code
+    type: string
+    type_policy: flexible
+    default: "00000"
+  - index: 14
+    field: country
+    label: Country
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 15
+    field: email
+    label: Email
+    type: string
+    type_policy: strict
+    default: "unknown@example.com"
+  - index: 16
+    field: favorite_color
+    label: Favorite Color
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 17
+    field: avatar
+    label: Avatar
+    type: string
+    type_policy: flexible
+    default: ""
+  - index: 18
+    field: salary
+    label: Salary
+    type: float
+    type_policy: flexible
+    default: 0.0
+  - index: 19
+    field: hire_date
+    label: Hire Date
+    type: date
+    format: "%m/%d/%Y"
+    type_policy: strict
+    default: "1970-01-01"
+  - index: 20
+    field: department
+    label: Department
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 21
+    field: emergency_contact_name
+    label: Emergency Contact Name
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 22
+    field: emergency_contact_phone
+    label: Emergency Contact Phone
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 23
+    field: emergency_contact_relationship
+    label: Emergency Contact Relationship
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 24
+    field: years_of_experience
+    label: Years of Experience
+    type: int
+    type_policy: flexible
+    default: 0
+  - index: 25
+    field: education_level
+    label: Education Level
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 26
+    field: marital_status
+    label: Marital Status
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 27
+    field: gender
+    label: Gender
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 28
+    field: ethnicity
+    label: Ethnicity
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 29
+    field: languages_spoken
+    label: Languages Spoken
+    type: string
+    type_policy: flexible
+    default: "Unknown"
+  - index: 30
+    field: employee_status
+    label: Employee Status
+    type: string
+    type_policy: flexible
+    default: "Unknown"
