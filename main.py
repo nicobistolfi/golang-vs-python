@@ -1,6 +1,7 @@
 import csv
 import json
 import yaml
+import os
 import sys
 import threading
 import queue
@@ -128,6 +129,10 @@ def process_csv_to_json(csv_file, yaml_file, output_json_file):
         q.put((None, None))
     for t in threads:
         t.join()
+
+    # For output_json_file create directory if it doesn't exist
+    if not os.path.exists(os.path.dirname(output_json_file)):
+        os.makedirs(os.path.dirname(output_json_file))
 
     # Write the results to a JSON file
     with open(output_json_file, 'w') as json_file:
