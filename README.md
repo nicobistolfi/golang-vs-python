@@ -2,6 +2,8 @@
 
 This repository contains two scripts—one in Go and one in Python—designed to read a CSV file, process the data, and output it in JSON format. Both scripts utilize concurrency (Go routines and Python threading) for parallel processing of rows and include features like duplicate row detection and strict or flexible data type handling.
 
+### Article: [Go vs Python for File Processing: A Performance and Architecture Perspective](https://nico.bistol.fi/blog/golang-vs-python)
+
 ## Table of Contents
 1. [Features](#features)
 2. [Configuration](#configuration)
