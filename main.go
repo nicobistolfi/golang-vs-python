@@ -24,8 +24,9 @@ type ColumnConfig struct {
 }
 
 type Config struct {
-	Header  bool           `yaml:"header"`
-	Columns []ColumnConfig `yaml:"columns"`
+	Header           bool           `yaml:"header"`
+	Columns          []ColumnConfig `yaml:"columns"`
+	IgnoreDuplicates bool           `yaml:"ignore_duplicates"`
 }
 
 func loadConfig(filename string) (*Config, error) {
@@ -140,25 +141,55 @@ func main() {
 	var jsonData []map[string]interface{}
 	var wg sync.WaitGroup
 	jsonDataMutex := &sync.Mutex{}
+	seenMutex := &sync.Mutex{}
+
+	// Track seen rows to avoid duplicates
+	seen := make(map[string]struct{})
+	var processedCount, ignoredCount int
 
 	// Process rows concurrently
 	for i, row := range records {
 		wg.Add(1)
 		go func(i int, row []string) {
 			defer wg.Done()
-			// rowStart := time.Now()
+
+			// Create a unique key for the current row based on relevant fields
+			uniqueKey := ""
+			for _, col := range config.Columns {
+				if config.IgnoreDuplicates {
+					if col.Index < len(row) {
+						uniqueKey += row[col.Index] + "|"
+					}
+				}
+			}
+
+			// Check for duplicates
+			if config.IgnoreDuplicates {
+				seenMutex.Lock()
+				if _, exists := seen[uniqueKey]; exists {
+					ignoredCount++
+					seenMutex.Unlock()
+					return // Skip processing this row
+				}
+				seen[uniqueKey] = struct{}{} // Mark this row as seen
+				seenMutex.Unlock()
+			}
 
 			entry := make(map[string]interface{})
 			for _, col := range config.Columns {
-				value := castValue(row[col.Index], col)
-				entry[col.Label] = value
+				// Ensure the column index is within the bounds of the row
+				if col.Index < len(row) {
+					value := castValue(row[col.Index], col)
+					entry[col.Label] = value
+				} else {
+					log.Printf("Warning: Column index %d out of range for row %d", col.Index, i)
+				}
 			}
 
 			jsonDataMutex.Lock()
 			jsonData = append(jsonData, entry)
+			processedCount++
 			jsonDataMutex.Unlock()
-
-			// fmt.Printf("Row %d processed in: %v\n", i+1, time.Since(rowStart))
 		}(i, row)
 	}
 
@@ -178,8 +209,12 @@ func main() {
 
 	totalTime := time.Since(startTime)
 	rowCount := len(records)
-	avgSpeed := float64(rowCount) / totalTime.Seconds()
+	avgSpeed := float64(processedCount) / totalTime.Seconds()
 
 	fmt.Printf("Processed %d rows in %.2f seconds\n", rowCount, totalTime.Seconds())
+	if config.IgnoreDuplicates {
+		fmt.Printf("Ignored %d duplicate rows\n", ignoredCount)
+		fmt.Printf("Found %d unique rows\n", processedCount)
+	}
 	fmt.Printf("Average processing speed: %.2f rows/second\n", avgSpeed)
 }

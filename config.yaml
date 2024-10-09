@@ -1,5 +1,5 @@
 header: true # Assuming the CSV contains a header row
-ignore_duplicates: false # Ignore duplicate rows
+# ignore_duplicates: true # Ignore duplicate rows
 columns:
   - index: 0
     field: employee_id

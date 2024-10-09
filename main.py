@@ -82,7 +82,7 @@ def process_csv_to_json(csv_file, yaml_file, output_json_file):
     processed_rows = set()
 
     # Spawn worker threads
-    for _ in range(4):  # Adjust number of threads based on CPU cores
+    for _ in range(8):  # Adjust number of threads based on CPU cores
         t = threading.Thread(target=process_row, args=(q, results, yaml_config))
         t.start()
         threads.append(t)
@@ -95,13 +95,18 @@ def process_csv_to_json(csv_file, yaml_file, output_json_file):
 
     ignore_duplicates = yaml_config.get('ignore_duplicates', False)
 
+    file_open_start = time.time()
     with open(csv_file, 'r') as f:
+        file_open_time = time.time() - file_open_start
+        print(f"Time to open file: {file_open_time:.2f} seconds")
+
         reader = csv.reader(f)
 
         # Skip the header row if the config specifies it
         if yaml_config['header']:
             next(reader)
 
+        read_start = time.time()
         # Enqueue rows for processing
         for index, row in enumerate(reader):
             # Convert row to a tuple (which is hashable) to check for duplicates
@@ -120,6 +125,9 @@ def process_csv_to_json(csv_file, yaml_file, output_json_file):
                 completion_percentage = (row_count / total_rows) * 100
                 print(f"Processed {row_count} out of {total_rows} rows ({completion_percentage:.2f}% complete)")
                 last_progress_time = current_time
+
+    read_time = time.time() - read_start
+    print(f"Time to read file: {read_time:.2f} seconds")
 
     # Block until all rows have been processed
     q.join()
@@ -140,7 +148,10 @@ def process_csv_to_json(csv_file, yaml_file, output_json_file):
 
     end_time = time.time()
     processing_time = end_time - start_time
-    rows_per_second = row_count / processing_time
+    if ignore_duplicates:
+      rows_per_second = unique_row_count / processing_time
+    else:
+      rows_per_second = row_count / processing_time
 
     print(f"Processed {row_count} rows in {processing_time:.2f} seconds")
     if ignore_duplicates:
